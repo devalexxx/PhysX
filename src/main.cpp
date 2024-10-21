@@ -9,6 +9,8 @@
 #include <sstream>
 #include <fstream>
 
+#include <PhysX/System.h>
+
 template<>
 struct fmt::formatter<glm::vec3> : formatter<std::string>
 {
@@ -26,6 +28,7 @@ int main(int /* argc */, char** /* argv */)
 
     glm::vec3 p0(0, 4000, 0);
     glm::vec3 v0(50.f, 0, 0);
+	glm::vec3 a0(0.f);
 
     //	float rho = 1.2;
     //	float A   = 1.9;
@@ -35,9 +38,6 @@ int main(int /* argc */, char** /* argv */)
     //	float coef = -.32f;
     float coef = -(m * g) / (50.f * 50.f);
 
-    glm::vec3 fg = glm::vec3(0, -1, 0) * m * g;
-    glm::vec3 fd = coef * glm::length(v0) * v0;
-
     float dt = 0.3;
     float tt = 100;
     float t  = 0;
@@ -46,34 +46,23 @@ int main(int /* argc */, char** /* argv */)
     std::stringstream pStream;
     std::stringstream aStream;
 
-    glm::vec3 a   = (fg + fd) / m;
-    glm::vec3 pdt = p0;
-    glm::vec3 pt  = p0 + v0 * dt;
-    glm::vec3 p   = pt;
-    glm::vec3 v   = v0;
+	VerletSystem vs(dt, m, p0, v0, a0);
+	vs.AddForce(Draft(glm::vec3(coef)));
+	vs.AddForce(Gravity(g));
 
-    vStream << fmt::format("{:.2f} {}\n", t, v0);
-    pStream << fmt::format("{:.2f} {}\n", t, p0);
-    aStream << fmt::format("{:.2f} {}\n", t, a);
+    vStream << fmt::format("{:.2f} {}\n", t, vs.GetVelocity());
+    pStream << fmt::format("{:.2f} {}\n", t, vs.GetPosition());
+    aStream << fmt::format("{:.2f} {}\n", t, vs.GetAcceleration());
 
     while (t < tt)
     {
         t += dt;
 
-        pt  = p;
-        p   = 2.f * pt - pdt + (dt * dt) * a;
-        pdt = pt;
-        v   = (p - pdt) / dt;
+		vs.Tick(dt);
 
-        if (float norm = glm::length(v); norm != 0)
-            fd = coef * norm * v;
-        else
-            fd = glm::vec3(0, 0, 0);
-        a = (fg + fd) / m;
-
-        vStream << fmt::format("{:.2f} {}\n", t, v);
-        pStream << fmt::format("{:.2f} {}\n", t, p);
-        aStream << fmt::format("{:.2f} {}\n", t, a);
+        vStream << fmt::format("{:.2f} {}\n", t, vs.GetVelocity());
+        pStream << fmt::format("{:.2f} {}\n", t, vs.GetPosition());
+        aStream << fmt::format("{:.2f} {}\n", t, vs.GetAcceleration());
     }
 
     {

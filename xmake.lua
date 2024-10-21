@@ -10,6 +10,9 @@ add_requires("glm", "fmt")
 
 target("PhysX")
     set_kind("binary")
+
+    add_includedirs("include/")
+    add_headerfiles("include/PhisX/*.h")
     add_files("src/*.cpp")
 
     add_packages("glm", "fmt")
