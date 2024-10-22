@@ -45,4 +45,17 @@ class Draft : public Force
 		glm::vec3 mCoef;
 };
 
+class Rope : public Force
+{
+	public:
+		Rope(float k, float length, glm::vec3 anchor);
+
+		void Tick(System* s) override;
+
+	private:
+		float 	  mK;
+		float     mLength;
+		glm::vec3 mAnchor;
+};
+
 #endif
