@@ -26,8 +26,22 @@ target("Skydiver")
 
     after_run(function(target)
         import("core.project.task")
-        task.run("plot-sd", { path = "$(buildir)/$(os)/$(arch)/$(mode)/out.txt" })
+        task.run("plot-sd", { path = "$(buildir)/$(os)/$(arch)/$(mode)/asset/skydiver/out.txt" })
     end)
 
     add_deps("PhysX")
     add_packages("glm", "fmt")
+
+target("Bridge")
+    set_kind("binary")
+
+    add_files("src/Bridge/*.cpp")
+
+    after_run(function(target)
+        import("core.project.task")
+        task.run("plot-sd", { path = "$(buildir)/$(os)/$(arch)/$(mode)/asset/bridge/out.txt" })
+    end)
+
+    add_deps("PhysX")
+    add_packages("glm", "fmt")
+
