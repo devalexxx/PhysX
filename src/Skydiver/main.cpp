@@ -2,25 +2,14 @@
 // Created by Alex on 15/10/2024.
 //
 
-#include <glm/glm.hpp>
-#include <fmt/format.h>
 #include <fmt/base.h>
 
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
 
-#include "PhysX/System.h"
-
-template<>
-struct fmt::formatter<glm::vec3> : formatter<std::string>
-{
-    auto format(const glm::vec3& vec, format_context& ctx) const
-    {
-        auto fmt = fmt::format("{:.2f} {:.2f} {:.2f}", vec.x, vec.y, vec.z);
-        return formatter<std::string>::format(fmt, ctx);
-    }
-};
+#include <PhysX/Utils.h>
+#include <PhysX/System.h>
 
 int main(int /* argc */, char** /* argv */)
 {
