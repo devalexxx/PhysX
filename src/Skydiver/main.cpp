@@ -7,12 +7,17 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 
 #include <PhysX/Utils.h>
 #include <PhysX/System.h>
 
 int main(int /* argc */, char** /* argv */)
 {
+	namespace fs = std::filesystem;
+	fs::create_directory("asset");
+	fs::create_directory("asset/skydiver");
+
     float g = 10;
     float m = 80;
 
@@ -48,7 +53,7 @@ int main(int /* argc */, char** /* argv */)
     }
 
     {
-        std::ofstream out("out.txt");
+        std::ofstream out("asset/skydiver/out.txt");
         if (out.is_open())
         {
             out << os.str();
