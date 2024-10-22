@@ -2,7 +2,7 @@
 // Created by Alex on 21/10/2024.
 //
 
-#include <PhysX/System.h>
+#include "PhysX/System.h"
 
 System::System(float mass, glm::vec3 position, glm::vec3 velocity, glm::vec3 acceleration) :
 	mMass(mass), mPosition(position), mVelocity(velocity), mAcceleration(acceleration)

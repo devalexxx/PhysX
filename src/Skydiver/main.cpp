@@ -4,12 +4,13 @@
 
 #include <glm/glm.hpp>
 #include <fmt/format.h>
+#include <fmt/base.h>
 
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
 
-#include <PhysX/System.h>
+#include "PhysX/System.h"
 
 template<>
 struct fmt::formatter<glm::vec3> : formatter<std::string>
@@ -42,62 +43,30 @@ int main(int /* argc */, char** /* argv */)
     float tt = 100;
     float t  = 0;
 
-    std::stringstream vStream;
-    std::stringstream pStream;
-    std::stringstream aStream;
+    std::stringstream os;
 
 	VerletSystem vs(dt, m, p0, v0, a0);
 	vs.AddForce(Draft(glm::vec3(coef)));
 	vs.AddForce(Gravity(g));
 
-    vStream << fmt::format("{:.2f} {}\n", t, vs.GetVelocity());
-    pStream << fmt::format("{:.2f} {}\n", t, vs.GetPosition());
-    aStream << fmt::format("{:.2f} {}\n", t, vs.GetAcceleration());
+	os << fmt::format("{:.2f} {} {} {}\n", t, vs.GetPosition(), vs.GetVelocity(), vs.GetAcceleration());
 
     while (t < tt)
     {
         t += dt;
-
 		vs.Tick(dt);
-
-        vStream << fmt::format("{:.2f} {}\n", t, vs.GetVelocity());
-        pStream << fmt::format("{:.2f} {}\n", t, vs.GetPosition());
-        aStream << fmt::format("{:.2f} {}\n", t, vs.GetAcceleration());
+		os << fmt::format("{:.2f} {} {} {}\n", t, vs.GetPosition(), vs.GetVelocity(), vs.GetAcceleration());
     }
 
     {
-        std::ofstream vOut("vout.txt");
-        if (vOut.is_open())
+        std::ofstream out("out.txt");
+        if (out.is_open())
         {
-            vOut << vStream.str();
+            out << os.str();
         }
         else
         {
             fmt::print("Failed to write \"vout.txt\" file.");
-        }
-    }
-
-    {
-        std::ofstream pOut("pout.txt");
-        if (pOut.is_open())
-        {
-            pOut << pStream.str();
-        }
-        else
-        {
-            fmt::print("Failed to write \"pout.txt\" file.");
-        }
-    }
-
-    {
-        std::ofstream aOut("aout.txt");
-        if (aOut.is_open())
-        {
-            aOut << aStream.str();
-        }
-        else
-        {
-            fmt::print("Failed to write \"aout.txt\" file.");
         }
     }
 
