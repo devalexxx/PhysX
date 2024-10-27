@@ -9,6 +9,7 @@ set_languages("c++23")
 set_warnings("allextra")
 
 add_requires("glm", "fmt")
+add_requires("orion")
 
 target("PhysX")
     set_kind("static")
@@ -44,4 +45,13 @@ target("Rope")
 
     add_deps("PhysX")
     add_packages("glm", "fmt")
+
+target("Bridge")
+    set_kind("binary")
+
+    add_files("src/Bridge/*.cpp")
+
+    add_deps("PhysX")
+    add_packages("glm", "fmt", "orion")
+    add_rules("@orion/resource")
 
