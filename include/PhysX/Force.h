@@ -26,7 +26,7 @@ class Force
 class Gravity : public Force
 {
 	public:
-		Gravity(float gravity);
+		explicit Gravity(float gravity);
 
 		void Tick(System* s) override;
 
@@ -37,25 +37,12 @@ class Gravity : public Force
 class Draft : public Force
 {
 	public:
-		Draft(glm::vec3 coef);
+		explicit Draft(glm::vec3 coef);
 
 		void Tick(System* s) override;
 
 	private:
 		glm::vec3 mCoef;
-};
-
-class Rope : public Force
-{
-	public:
-		Rope(float k, float length, glm::vec3 anchor);
-
-		void Tick(System* s) override;
-
-	private:
-		float 	  mK;
-		float     mLength;
-		glm::vec3 mAnchor;
 };
 
 #endif

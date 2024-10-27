@@ -33,14 +33,3 @@ void Gravity::Tick(System* s)
 {
 	mForce = s->GetMass() * mGravity * glm::vec3(0, -1, 0);
 }
-
-Rope::Rope(float k, float length, glm::vec3 anchor) :
-	mK(k), mLength(length), mAnchor(anchor)
-{}
-
-void Rope::Tick(System* s)
-{
-	float d = glm::distance(s->GetPosition(), mAnchor);
-	float r = mK * (d - mLength);
-	mForce = r * (mAnchor - s->GetPosition());
-}

@@ -32,14 +32,14 @@ target("Skydiver")
     add_deps("PhysX")
     add_packages("glm", "fmt")
 
-target("Bridge")
+target("Rope")
     set_kind("binary")
 
-    add_files("src/Bridge/*.cpp")
+    add_files("src/Rope/*.cpp")
 
     after_run(function(target)
         import("core.project.task")
-        task.run("plot-sd", { path = "$(buildir)/$(os)/$(arch)/$(mode)/asset/bridge/out.txt" })
+        task.run("plot-sd", { path = "$(buildir)/$(os)/$(arch)/$(mode)/asset/rope/out.txt" })
     end)
 
     add_deps("PhysX")
