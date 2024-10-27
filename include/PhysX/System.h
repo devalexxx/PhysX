@@ -65,4 +65,12 @@ class VerletSystem : public System
 		float 	  mFixedDeltaTime;
 };
 
+class StaticSystem : public System
+{
+	public:
+		explicit StaticSystem(glm::vec3 position);
+
+		void Tick(float) override {};
+};
+
 #endif

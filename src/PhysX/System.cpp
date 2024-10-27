@@ -70,3 +70,5 @@ void VerletSystem::Tick(float dt)
 	mLastPosition = tmp;
 	mVelocity     = (mPosition - mLastPosition) / mFixedDeltaTime;
 }
+
+StaticSystem::StaticSystem(glm::vec3 position) : System(0, position, glm::vec3(0.f), glm::vec3(0.f)) {}
